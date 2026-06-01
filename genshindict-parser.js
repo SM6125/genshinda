@@ -2,7 +2,7 @@
 const fs = require("fs");
 const path = require("path");
 
-const inputFile = path.join(__dirname, "genshindict-original.json");
+const inputFile = path.join(__dirname, "words.json");
 const outputFile = path.join(__dirname, "genshindict-parsed.json");
 
 const input = JSON.parse(fs.readFileSync(inputFile, "utf-8"));
@@ -11,7 +11,7 @@ const output = [];
 input.forEach((entry) => {
     const plain = entry.ja;
     if (plain.includes("/")) return; // skip entries with multiple words
-    let parsed = entry.pronunciationJa?.replace(/・/g, ""); // parsed must be able to parsed into romaji
+    let parsed = entry.pronunciationJa?.replace(/\s|・|\?|!|、|。/g, ""); // parsed must be able to parsed into romaji
 
     if (!parsed) {
         // if no pronunciation, check if plain is pronunciation itself (contains only hiragana and katakana)

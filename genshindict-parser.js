@@ -11,17 +11,31 @@ const output = [];
 input.forEach((entry) => {
     const plain = entry.ja;
     if (plain.includes("/")) return; // skip entries with multiple words
-    let parsed = entry.pronunciationJa?.replace(/\s|・|\?|!|、|。/g, ""); // parsed must be able to parsed into romaji
+    let yomi = entry.pronunciationJa;
 
-    if (!parsed) {
-        // if no pronunciation, check if plain is pronunciation itself (contains only hiragana and katakana)
-        if (/^[\u3040-\u309F\u30A0-\u30FF]+$/.test(plain)) parsed = plain;
-        else return;
+    if (!yomi) {
+        // if plain is kana, use it as yomi with conversion to hiragana
+        if (!/^[\u3040-\u3096\u30A1-\u30F6]+$/.test(plain)) return;
+        yomi = plain;
     }
+
+    // remove spaces and punctuation from yomi
+    yomi = yomi.replace(/\s|・|\?|!|、|。/g, "");
+
+    // convert katakana to hiragana in yomi
+    yomi = [...yomi]
+        .map((char) => {
+            const code = char.charCodeAt(0);
+            if (code >= 0x30a1 && code <= 0x30f6) {
+                return String.fromCharCode(code - 0x60);
+            }
+            return char;
+        })
+        .join("");
 
     output.push({
         plain,
-        parsed,
+        yomi,
     });
 });
 

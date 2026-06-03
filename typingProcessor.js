@@ -71,7 +71,7 @@ function setupNewTarget() {
         currentTarget = reducedTargetStrings[currentIndexForSortedMode];
         currentIndexForSortedMode++;
     }
-    typingText = new TypingText(currentTarget.parsed);
+    typingText = new TypingText(currentTarget.yomi);
     pressedKeys.clear();
     updateDisplay();
 }
@@ -80,7 +80,7 @@ function updateDisplay() {
     display.innerHTML = `
 <div class="typingInstructions">
   <div class="plain-text">${currentTarget.plain}</div>
-  <div class="parsed-text"><span class="correct">${typingText.completedText}</span><span>${typingText.remainingText}</span></div>
+  <div class="yomi-text"><span class="correct">${typingText.completedText}</span><span>${typingText.remainingText}</span></div>
   <div class="roman-text"><span class="correct">${typingText.completedRoman}</span><span>${typingText.remainingRoman}</span></div>
 </div>`;
 }
@@ -109,7 +109,7 @@ function startGame() {
     }
     const genre = genres[genreChoiceValue];
     reducedTargetStrings = targetStrings[genre].filter((obj) => {
-        return minLen <= obj.parsed.length && obj.parsed.length <= maxLen;
+        return minLen <= obj.yomi.length && obj.yomi.length <= maxLen;
     });
     if (!reducedTargetStrings.length) {
         reducedTargetStrings = targetStrings[genre];

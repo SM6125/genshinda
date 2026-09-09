@@ -21,14 +21,14 @@ if (fs.existsSync(addonFile)) {
     addon = [];
 }
 
-const output = [];
+let output = [];
 input.forEach((entry) => {
-    let { plain: ja, pronunciationJa: yomi } = entry;
+    let { ja: plain, pronunciationJa: yomi } = entry;
     if (plain.includes("/")) return;
 
     if (!yomi) {
         // if no yomi and plain is non-kana, skip entry
-        if (!/^[\u3040-\u3096\u30A1-\u30F6]+$/.test(plain)) return;
+        if (!/^[\u3040-\u3096\u30A1-\u30F6ー]+$/.test(plain)) return console.log(`Skipping ${plain} - no yomi nor kana`);
         yomi = plain;
     }
 

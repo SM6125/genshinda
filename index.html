@@ -8,7 +8,13 @@
         <link rel="stylesheet" href="style.css" />
     </head>
     <body>
-        <h1>原神打</h1>
+        <header></header>
+        <script>
+            (async () => {
+                const res = await fetch("/header.html");
+                document.querySelector("header").innerHTML = await res.text();
+            })();
+        </script>
         <div id="cover"></div>
         <div id="display"></div>
         <p id="timeDiv"><progress id="timeBar"></progress><span id="timeDisplay"></span>秒</p>

@@ -22,7 +22,7 @@
     <header></header>
     <script>
         (async () => {
-            const res = await fetch("/header.html");
+            const res = await fetch("./header.html");
             document.querySelector("header").innerHTML = await res.text();
         })();
     </script>
